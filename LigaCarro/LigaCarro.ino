@@ -13,7 +13,7 @@
 LiquidCrystal_I2C lcd(0x20, 16, 2);
 
 AltSoftSerial bluetooth(8, 9); //TX/RX (bluetooth)                                                                                                                                                                        
-int incomingByte;
+String incomingByte = "";
 //const int botaoCadastra = 6;
 //const int botaoApaga = 7;
 //const int botaoLiga = 7;
@@ -31,6 +31,7 @@ int estadoPorta = 0;
 int portaAberta = 0;
 const int cambio = 3;
 int estadoCambio = 0;
+int counter = 0;
 
 void setup() {
 
@@ -203,8 +204,8 @@ void loop() {
     portaAberta = 0;
     
     if(bluetooth.available() > 0) {
-      incomingByte = bluetooth.read();
-      if(incomingByte == 'C') {
+      incomingByte += char(bluetooth.read());
+      if(incomingByte == "C") {
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("Novo Cadastro");
@@ -220,9 +221,10 @@ void loop() {
         fps.Open();
         Enroll();
         lcd.clear();
+        incomingByte = "";
       }
 
-      if(incomingByte == 'D') {
+      if(incomingByte == "D") {
         fps.Open();
         fps.DeleteAll();
         lcd.clear();
@@ -230,9 +232,10 @@ void loop() {
         lcd.print("Registro Apagado");
         delay(3000);
         lcd.clear();
+        incomingByte = "";
       }
 
-      if(incomingByte == 'H' && estadoCambio != 0) {
+      if(incomingByte == "HIGH" && estadoCambio != 0) {
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("Ligando Carro!");
@@ -248,6 +251,7 @@ void loop() {
         bluetooth.println("Carro Ligado!");
         delay(2000);
         lcd.clear();
+        incomingByte = "";
       }
     }
     if(fps.IsPressFinger() && estadoCambio != 0) {
@@ -311,9 +315,13 @@ void loop() {
         lcd.clear();
       }
     }
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(incomingByte);
+    delay(2000);
     if(bluetooth.available() > 0) {
-      incomingByte = bluetooth.read();
-      if(incomingByte == 'L') {
+      incomingByte += char(bluetooth.read());
+      if(incomingByte == "LOW") {
         digitalWrite(releIgnicao, LOW);
         ligado = 0;
         lcd.clear();
@@ -322,6 +330,7 @@ void loop() {
         bluetooth.println("Carro desligado!");
         delay(1000);
         lcd.clear();
+        incomingByte = "";
       }
     }
     if(estadoPorta == 1 || portaAberta == 1) {
@@ -355,9 +364,13 @@ void loop() {
         digitalWrite(releIgnicao, LOW);
         portaAberta = 0;
         ligado = 0;
+        lcd.clear();
       }
     }  
   }
+  bluetooth.print(counter);
+  bluetooth.print('\n');
+  counter++;
 }
 
 
