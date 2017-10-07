@@ -1,0 +1,13 @@
+.metadata/
+.recommenders/
+RemoteSystemsTempFiles/
+.classpath
+.project
+.settings/
+target/
+
+.gradle/
+bin/
+build/
+
+.DS_Store
