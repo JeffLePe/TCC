@@ -1,36 +1,44 @@
+//#include <SoftwareSerial.h>
+
 #include <AltSoftSerial.h>
 #include <LiquidCrystal_I2C.h>
 #include <FPS_GT511C3.h>
 
-//LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-LiquidCrystal_I2C lcd(0x20, 16, 2);
 
-AltSoftSerial bluetooth(8, 9); //TX/RX (bluetooth)                                                                                                                                                                        
-char incomingByte;
-int ligado = 0;
+LiquidCrystal_I2C lcd(0x20, 16, 2);
+AltSoftSerial bluetooth(8, 9); //TX/RX (bluetooth(8, 9) Arduino UNO, bluetooth(48, 46) Arduino Mega)
+FPS_GT511C3 fps(6, 7); //TX/RX (scanner)
+
+//LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+//SoftwareSerial bluetooth(1, 0);                                                                                                                                                                       
+//FPS_GT511C3 fps(18, 19); //TX/RX (scanner)
+
 const int relePartida = 11;
 const int releIgnicao = 10;
-int temp = 0;
-FPS_GT511C3 fps(6, 7); //TX/RX (scanner)
-const int porta = 4;
-int estadoPorta = 0;
-int portaAberta = 0;
-const int cambio = 3;
-int estadoCambio = 0;
+const int porta       = 4;
+const int cambio      = 3;
+char incomingByte;
+int ligado            = 0;
+int temp              = 0;
+int estadoPorta       = 0;
+int portaAberta       = 0;
+int estadoCambio      = 0;
+
 
 void setup() {
 
   lcd.init();
   lcd.backlight();
-  pinMode(relePartida, OUTPUT);
-  pinMode(releIgnicao, OUTPUT);
   bluetooth.begin(9600);
   fps.Open();
   fps.SetLED(true);
+  pinMode(relePartida, OUTPUT);
+  pinMode(releIgnicao, OUTPUT);
   pinMode(porta, INPUT);
   pinMode(cambio, INPUT);
 
 }
+
 
 //Funcao responsavel por cadastar impressoes digitais
 void Enroll() 
@@ -165,10 +173,13 @@ void Enroll()
   //======================================================================================
 }
 
+
 void loop() {
 
   estadoCambio = digitalRead(cambio);
 
+  // --------------- Carro Desligado ------------------- //
+  
   if(ligado == 0) {
 
     lcd.setCursor(0,0);
@@ -257,6 +268,9 @@ void loop() {
     }
     
   }
+  
+  // ------------- Carro Ligado ------------------ //
+  
   else {
     lcd.setCursor(0,0);
     lcd.print("Para desligar");
@@ -335,6 +349,9 @@ void loop() {
     }  
   }
 }
+
+
+
 
 
 
