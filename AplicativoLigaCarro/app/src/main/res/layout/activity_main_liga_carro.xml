@@ -5,68 +5,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/azulClaro"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:layout_gravity="center"
     tools:context="com.ligacarro.aplicativo.aplicativoligacarro.MainLigaCarro"
     android:weightSum="1">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="123dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.10"
+        android:weightSum="1">
 
         <LinearLayout
-            android:layout_width="193dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="0.50">
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonAdicionar"
-                android:layout_width="180dp"
+                android:layout_width="171dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/button_Adicionar" />
+                android:background="@null"
+                android:paddingRight="2dp"
+                android:scaleType="center"
+                android:src="@drawable/bt_adiciona_digital_1_2" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="193dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonExcluir"
-                android:layout_width="180dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/button_Excluir" />
+                android:background="@null"
+                android:paddingLeft="2dp"
+                android:scaleType="center"
+                android:src="@drawable/bt_remover_digitais_1_2" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="124dp"
-        android:layout_weight="0.32"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.35">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="193dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:weightSum="1">
+
+            <ImageButton
+                android:id="@+id/buttonLigaDesliga"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/bt_ligadesliga" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="109dp"
-        android:layout_weight="0.21"
+        android:layout_height="30dp"
+        android:layout_weight="0.47"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:layout_gravity="center">
 
-            <Button
-                android:id="@+id/buttonLigaDesliga"
-                android:layout_width="188dp"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.35"
-                android:text="@string/button_LigaDesliga" />
+                android:src="@drawable/icone_carro"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </LinearLayout>
 

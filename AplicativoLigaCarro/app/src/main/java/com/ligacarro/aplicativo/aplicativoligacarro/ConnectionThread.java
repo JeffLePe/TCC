@@ -63,7 +63,6 @@ public class ConnectionThread extends Thread{
             }catch (IOException e) {
                 /* Se ocorrer uma exceção, exibe o stack trace para debug. Envia um código para a Activity principal, informando que a conexão falhou */
                 e.printStackTrace();
-                toMainActivity("---A" .getBytes());
             }
         }
         else {
@@ -83,7 +82,6 @@ public class ConnectionThread extends Thread{
 
             }catch (IOException e) {
                 e.printStackTrace();
-                toMainActivity("---I" .getBytes());
             }
         }
 
@@ -91,7 +89,6 @@ public class ConnectionThread extends Thread{
         if(btSocket.isConnected()) {
             /* Envia um código para a activity principal informando que a conexão ocorreu com sucesso. */
             this.isConnected = true;
-            toMainActivity("---S" .getBytes());
 
             try{
                 /* Obtem referências para os fluxos de entrada e saída do socket Bluetooth */
@@ -100,22 +97,9 @@ public class ConnectionThread extends Thread{
 
             }catch (IOException e) {
                 e.printStackTrace();
-                toMainActivity("---B" .getBytes());
                 this.isConnected = false;
             }
         }
-    }
-
-    /* Utiliza um Handler para enviar um array de byte à Activity principal.
-     * O array de byte é encapsulado em um Bundle e posteriormente em uma Message antes de ser enviado. */
-    private void toMainActivity(byte[] data) {
-
-        Message message = new Message();
-        Bundle bundle = new Bundle();
-        bundle.putByteArray("data", data);
-        message.setData(bundle);
-        MainLigaCarro.handler.sendMessage(message);
-
     }
 
     /* O método utilizado pela Activity principal para transmitir uma menssagem ao outro lado da conexão.
@@ -125,32 +109,15 @@ public class ConnectionThread extends Thread{
             try{
                 //trasmite a mensagem
                 output.write(data);
-                toMainActivity(data);
 
             }catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        else {
-            //Envia a Activity principal um código de erro durante a conexão.
-            toMainActivity("---N" .getBytes());
-        }
-    }
-
-    //Método utiizado pela Activity principal para encerrar a conexão
-    public void cancel() {
-        try {
-            running = false;
-            this.isConnected = false;
-            btServerSocket.close();
-            btSocket.close();
-
-        }catch (IOException e) {
+        else{
+            IOException e = new IOException();
             e.printStackTrace();
         }
-
-        running = false;
-        this.isConnected = false;
     }
 
     public boolean isConnected() {

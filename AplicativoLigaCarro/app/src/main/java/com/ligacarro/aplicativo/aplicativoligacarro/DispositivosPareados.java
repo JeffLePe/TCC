@@ -37,7 +37,7 @@ public class DispositivosPareados extends ListActivity {
         listaDispositivos.setAdapter(btArrayAdapter);
 
         if(dispPareados.size() > 0) {
-            //precorre a lita de dispositivos pareados para extrair suas informações
+            //precorre a lista de dispositivos pareados para extrair suas informações
             for (BluetoothDevice device: dispPareados) {
                 //pega o nome e endreço MAC de cada dispositivo pareado e os insere no listAdapter para ser mostrado no listView
                 btArrayAdapter.add(device.getName() + "\n" + device.getAddress());

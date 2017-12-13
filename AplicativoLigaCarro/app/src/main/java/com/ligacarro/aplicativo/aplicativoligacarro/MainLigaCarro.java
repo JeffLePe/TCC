@@ -6,6 +6,8 @@ import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.bluetooth.*;
 import android.os.Handler;
@@ -14,17 +16,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class MainLigaCarro extends Activity implements View.OnClickListener{
 
     private ConnectionThread connect;
     private static int PROCURA_DISPOSITIVO = 1;
 
-    private Button buttonAdicionar;
-    private Button buttonExcluir;
-    private Button buttonLigaDesliga;
+    private ImageButton buttonAdicionar;
+    private ImageButton buttonExcluir;
+    private ImageButton buttonLigaDesliga;
+
+    private ImageView imagemCarro;
 
     private boolean statusLigado = false;
+    private boolean conectado    = false;
 
     private BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -34,9 +41,10 @@ public class MainLigaCarro extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_main_liga_carro);
 
         //link entre as represetações gráficas e seus componentes java
-        buttonAdicionar = (Button) findViewById(R.id.buttonAdicionar);
-        buttonExcluir = (Button) findViewById(R.id.buttonExcluir);
-        buttonLigaDesliga = (Button) findViewById(R.id.buttonLigaDesliga);
+        buttonAdicionar = (ImageButton) findViewById(R.id.buttonAdicionar);
+        buttonExcluir = (ImageButton) findViewById(R.id.buttonExcluir);
+        buttonLigaDesliga = (ImageButton) findViewById(R.id.buttonLigaDesliga);
+        imagemCarro = (ImageView) findViewById(R.id.imageView);
 
         buttonAdicionar.setOnClickListener(this);
         buttonExcluir.setOnClickListener(this);
@@ -133,10 +141,12 @@ public class MainLigaCarro extends Activity implements View.OnClickListener{
     public void ligaDesliga() {
 
         if(statusLigado == false) {
+            imagemCarro.setImageDrawable(getDrawable(R.drawable.icone_carro_ligado));
             connect.write("HIGH" .getBytes());
             statusLigado = true;
         }
         else {
+            imagemCarro.setImageDrawable(getDrawable(R.drawable.icone_carro));
             connect.write("LOW" .getBytes());
             statusLigado = false;
         }
@@ -198,48 +208,5 @@ public class MainLigaCarro extends Activity implements View.OnClickListener{
         connect.run();
 
     }
-
-    public static Handler handler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Bundle bundle = msg.getData();
-            byte[] data = bundle.getByteArray("data");
-            String dataString = new String(data);
-
-            if(dataString.equals("---N")){
-                //apresentaMensagem("Ocorreu um erro durante a conexão");
-            }
-            else if(dataString.equals("---S")){
-                //apresentaMensagem("Conectado");
-            }
-            else if(dataString.equals("---I")){
-                //apresentaMensagem("Ocorreu um erro durante a conexão neste lugar cliente");
-            }
-            else if(dataString.equals("---A")){
-                //apresentaMensagem("Ocorreu um erro durante a conexão neste lugar servidor");
-            }
-            else if(dataString.equals("---B")) {
-                //apresentaMensagem("Ocorreu um erro durante a conexão neste lugar gerencia");
-            }
-            else if(dataString.equals("LOW")) {
-                //apresentaMensagem("Chegou LOW");
-            }
-            else{
-                //apresentaMensagem(dataString);
-            }
-        }
-
-        /*private void apresentaMensagem(String message) {
-
-            AlertDialog.Builder dialog = new AlertDialog.Builder(MainLigaCarro.class);
-            dialog.setMessage(message);
-            dialog.setNeutralButton("OK", null);
-            dialog.show();
-
-        }*/
-    };
-
 
 }
