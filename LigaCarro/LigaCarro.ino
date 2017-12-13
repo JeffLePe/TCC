@@ -154,7 +154,7 @@ void Enroll()
     else {
       lcd.clear();
       lcd.setCursor(0, 0); //Posiciona o cursor na primeira coluna(0) e na primeira linha(0) do LCD
-      lcd.print("Falha na captura"); //Escreve no LCD "Olá Garagista!"
+      lcd.print("Falha na captura");
       lcd.setCursor(0, 1); //Posiciona o cursor na primeira coluna(0) e na primeira linha(0) do LCD
       lcd.print("Do segundo dedo");
       delay(1000);
@@ -165,7 +165,7 @@ void Enroll()
   else {
     lcd.clear();
     lcd.setCursor(0, 0); //Posiciona o cursor na primeira coluna(0) e na primeira linha(0) do LCD
-    lcd.print("Falha na captura"); //Escreve no LCD "Olá Garagista!"
+    lcd.print("Falha na captura");
     lcd.setCursor(0, 1); //Posiciona o cursor na primeira coluna(0) e na primeira linha(0) do LCD
     lcd.print("Do terceiro dedo");
     delay(1000);
